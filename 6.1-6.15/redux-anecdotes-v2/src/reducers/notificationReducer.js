@@ -1,12 +1,32 @@
 const initialState = {
-  text: 'Initial notification'
+  text: 'Initial notification',
+  show: false
+}
+
+export const showNotification = text => {
+  return {
+    type: 'SHOW_NOTIFICATION',
+    data: {
+      text
+    }
+  }
+}
+
+export const hideNotification = text => {
+  return {
+    type: 'HIDE_NOTIFICATION'
+  }
 }
 
 const notificationReducer = (store = initialState, action) => {
-  if (action.type==='SHOW_NOTIFICATION') {
-    return {...store, text: action.data.text}
+  switch(action.type) {
+    case 'SHOW_NOTIFICATION':
+      return { text: action.data.text, show: true}
+    case 'HIDE_NOTIFICATION':
+      return { text: '', display: false}
+    default:
+      return store
   }
-  return store
 }
 
 export default notificationReducer
