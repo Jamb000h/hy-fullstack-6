@@ -5,12 +5,11 @@ import { connect } from 'react-redux'
 import anecdoteService from '../services/anecdotes'
 
 class AnecdoteForm extends React.Component {
-  handleSubmit = async (e) => {
+  handleSubmit(e) {
     e.preventDefault()
     const content = e.target.anecdote.value
     e.target.anecdote.value = ''
-    const newAnecdote = await anecdoteService.createNew(content)
-    this.props.createAnecdote(newAnecdote)
+    this.props.createAnecdote(content)
     this.props.showNotification('Anecdote added!')
 
     setTimeout( () => {

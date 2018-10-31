@@ -12,7 +12,7 @@ export const showNotification = text => {
   }
 }
 
-export const hideNotification = text => {
+export const hideNotification = () => {
   return {
     type: 'HIDE_NOTIFICATION'
   }
