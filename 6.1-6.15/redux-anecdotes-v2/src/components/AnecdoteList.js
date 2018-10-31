@@ -1,17 +1,13 @@
 import React from 'react'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
-import { showNotification, hideNotification } from '../reducers/notificationReducer'
+import { notify } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
-
 class AnecdoteList extends React.Component {
 
   vote(id) {
     const voted = this.props.filteredAnecdotes.find(a => a.id === id)
     this.props.voteAnecdote(voted)
-    this.props.showNotification('Vote registered!')
-    setTimeout( () => {
-      this.props.hideNotification()
-    }, 5000)
+    this.props.notify(`Voted '${voted.content}'`, 5)
   }
 
   render() {
@@ -54,8 +50,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps =
   {
     voteAnecdote,
-    showNotification,
-    hideNotification
+    notify
   }
 
 const ConnectedAnecdoteList = connect(

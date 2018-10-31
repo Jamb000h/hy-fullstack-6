@@ -3,18 +3,19 @@ const initialState = {
   show: false
 }
 
-export const showNotification = text => {
-  return {
-    type: 'SHOW_NOTIFICATION',
-    data: {
-      text
-    }
-  }
-}
-
-export const hideNotification = () => {
-  return {
-    type: 'HIDE_NOTIFICATION'
+export const notify = (text, duration) => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'SHOW_NOTIFICATION',
+      data: {
+        text
+      }
+    })
+    setTimeout( () => {
+      dispatch({
+        type: 'HIDE_NOTIFICATION'
+      })
+    }, duration * 1000) // Duration is given as seconds, so multiply by 1000
   }
 }
 
