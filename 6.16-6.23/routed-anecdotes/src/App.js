@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -8,9 +8,9 @@ const AnecdoteList = ({ anecdotes }) => (
       {anecdotes.map(anecdote => {
         return (
           <li key={anecdote.id} >
-            <Link to={`/anecdotes/${anecdote.id}`}>
+            <NavLink to={`/anecdotes/${anecdote.id}`}>
               {anecdote.content}
-            </Link>
+            </NavLink>
           </li>
         )
       })}
@@ -98,8 +98,17 @@ const Anecdote = ({ anecdote }) => (
   </div>
 )
 
+const notificationStyles = {
+  padding: '.2rem 1rem',
+  margin: '0 1rem',
+  borderLeft: '4px solid #57eb57',
+  boxShadow: '1px 1px 5px 2px rgba(224,224,224,1)',
+  fontFamily: 'Arial',
+  fontWeight: '18'
+}
+
 const Notification = ({notification}) => (
-  <div>
+  <div style={notificationStyles}>
     <p>{ notification }</p>
   </div>
 )
@@ -155,13 +164,34 @@ class App extends React.Component {
   }
 
   render() {
+
+    const menuStyle = {
+      padding: '.5rem',
+    }
+
+    const linkStyle = {
+      fontFamily: 'Arial',
+      fontSize: 20,
+      textAlign: 'center',
+      padding: '.5rem 1rem',
+      margin: '0 .5rem 0 0',
+      textDecoration: 'none',
+      textTransform: 'uppercase',
+      color: 'white',
+      backgroundColor: 'lightgrey'
+    }
+
+    const activeLinkStyle = {
+      backgroundColor: 'lightBlue'
+    }
+
     return (
       <div>
         <Router>
-        <div>
-          <Link to="/">home</Link> &nbsp;
-          <Link to="/create">create</Link> &nbsp;
-          <Link to="/about">about</Link>
+        <div style={menuStyle}>
+          <NavLink exact to="/" style={linkStyle} activeStyle={activeLinkStyle}>home</NavLink> &nbsp;
+          <NavLink exact to="/create" style={linkStyle} activeStyle={activeLinkStyle}>create</NavLink> &nbsp;
+          <NavLink exact to="/about" style={linkStyle} activeStyle={activeLinkStyle}>about</NavLink>
           <h1>Software anecdotes</h1>
           { this.state.notification.length > 0 ?
             <Notification notification={this.state.notification} />
