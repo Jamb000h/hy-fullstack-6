@@ -1,35 +1,41 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+import { Button, FormGroup, FormControl, ControlLabel, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
+    <ListGroup>
       {anecdotes.map(anecdote => {
         return (
-          <li key={anecdote.id} >
+          <ListGroupItem key={anecdote.id} >
             <NavLink to={`/anecdotes/${anecdote.id}`}>
               {anecdote.content}
             </NavLink>
-          </li>
+          </ListGroupItem>
         )
       })}
-    </ul>  
+    </ListGroup>  
   </div>
 )
 
 const About = () => (
-  <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
-    
-    <em>An anecdote is a brief, revealing account of an individual person or an incident. 
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
-      An anecdote is "a story with a point."</em>
+  <Row>
+    <Col xs={12} sm={8}>
+      <h2>About anecdote app</h2>
+      <p>According to Wikipedia:</p>
+      
+      <em>An anecdote is a brief, revealing account of an individual person or an incident. 
+        Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
+        such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
+        An anecdote is "a story with a point."</em>
 
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
+      <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+    </Col>
+    <Col xs={12} sm={4}>
+      <img src="grace-hopper.jpg" alt="Grace Hopper" />
+    </Col>
+  </Row>
 )
 
 const Footer = () => (
@@ -71,19 +77,19 @@ class CreateNew extends React.Component {
       <div>
         <h2>create a new anecdote</h2>
         <form onSubmit={this.handleSubmit}>
-          <div>
-            content 
-            <input name='content' value={this.state.content} onChange={this.handleChange} />
-          </div>
-          <div>
-            author
-            <input name='author' value={this.state.author} onChange={this.handleChange} />
-          </div>
-          <div>
-            url for more info
-            <input name='info' value={this.state.info} onChange={this.handleChange} />
-          </div> 
-          <button>create</button>
+          <FormGroup>
+            <ControlLabel>content</ControlLabel>
+            <FormControl name='content' value={this.state.content} onChange={this.handleChange} />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>author</ControlLabel>
+            <FormControl name='author' value={this.state.author} onChange={this.handleChange} />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>content</ControlLabel>
+            <FormControl name='info' value={this.state.info} onChange={this.handleChange} />
+          </FormGroup>
+          <Button bsStyle="primary" type="submit">create</Button>
         </form>
       </div>  
     )
@@ -167,6 +173,7 @@ class App extends React.Component {
 
     const menuStyle = {
       padding: '.5rem',
+      marginTop: '2rem'
     }
 
     const linkStyle = {
@@ -186,7 +193,7 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div className="container">
         <Router>
         <div style={menuStyle}>
           <NavLink exact to="/" style={linkStyle} activeStyle={activeLinkStyle}>home</NavLink> &nbsp;
@@ -196,11 +203,15 @@ class App extends React.Component {
           { this.state.notification.length > 0 ?
             <Notification notification={this.state.notification} />
             : null }
-          <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
-          <Route path="/create" render={({history}) => 
-            <CreateNew history={history} addNew={this.addNew}/>} />
-          <Route path="/about" render={() => <About />  } />
-          <Route path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)} />} />
+          <Row>
+            <Col xs={12} sm={8}>
+              <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
+              <Route path="/create" render={({history}) => 
+                <CreateNew history={history} addNew={this.addNew}/>} />
+              <Route path="/about" render={() => <About />  } />
+              <Route path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)} />} />
+            </Col>
+          </Row>
         </div>
         </Router>
         <Footer />
